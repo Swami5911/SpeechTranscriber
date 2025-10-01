@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transcription Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           
+            color: #fff;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff !important;
+        }
+
+        .dropdown-menu {
+            background-color: #222;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+
+        .dropdown-item:hover {
+            background-color: #444;
+        }
+
+
+        .container {
+            max-width: 900px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .bg-light {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            color: #fff;
+        }
+
+        .border {
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .alert-info {
+            background-color: rgba(0, 123, 255, 0.2);
+            border: none;
+            color: #fff;
+        }
+
+        .entity-badge {
+            display: inline-block;
+            margin: 2px 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .PERSON {
+            background-color: #007bff;
+        }
+
+        .ORG {
+            background-color: #17a2b8;
+        }
+
+        .GPE {
+            background-color: #28a745;
+        }
+
+        .DATE {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .LOC,
+        .TIME,
+        .EVENT,
+        .LANGUAGE {
+            background-color: #6f42c1;
+        }
+
+        .btn-outline-secondary {
+            color: #fff;
+            border-color: #ccc;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .glass-card {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#">🧠 VoiceFlow</a>
+            <div class="dropdown ms-auto">
+                <button class="btn btn-transparent text-white dropdown-toggle" type="button" id="menuDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    &#x22EE;
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
+                    <li><a class="dropdown-item" href="#">Home</a></li>
+                    <li><a class="dropdown-item" href="#">Documentation</a></li>
+                    <li><a class="dropdown-item" href="#">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="glass-card">
+            <h2>📝 Transcription & Translation Results</h2>
+
+            <div class="mb-4 mt-4">
+                <h5>🗣️ Original Transcribed Text:</h5>
+                <p class="bg-light p-3 border rounded">{{ transcript }}</p>
+            </div>
+
+            <div class="mb-4">
+                <h5>🌍 Translated Text:</h5>
+                <p class="bg-light p-3 border rounded">{{ translated }}</p>
+            </div>
+
+            <div class="mb-4">
+                <h5>🧠 Summary:</h5>
+                <div class="alert alert-info">{{ summary }}</div>
+            </div>
+
+            <div class="mb-4">
+                <h5>😊 Sentiment:</h5>
+                {% if sentiment == 'Positive' %}
+                <span class="badge bg-success">Positive</span>
+                {% elif sentiment == 'Negative' %}
+                <span class="badge bg-danger">Negative</span>
+                {% else %}
+                <span class="badge bg-secondary">Neutral</span>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <h5>🧾 Named Entities:</h5>
+                {% if entities %}
+                <div>
+                    {% for text, label in entities %}
+                    <span class="entity-badge {{ label }}">{{ text }} ({{ label }})</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-light">No named entities detected.</p>
+                {% endif %}
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <a href="/" class="btn btn-outline-secondary">🔙 Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

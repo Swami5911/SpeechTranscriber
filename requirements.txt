@@ -1,0 +1,7 @@
+Flask
+SpeechRecognition
+deep-translator
+pydub
+PyPDF2
+fpdf2
+python-docx

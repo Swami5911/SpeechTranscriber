@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Speech-to-Text Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+
+        body {
+            padding-top: 4.5rem;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff !important;
+        }
+
+        .dropdown-menu {
+            background-color: #222;
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+
+        .dropdown-item:hover {
+            background-color: #444;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .title-card h2 {
+            font-weight: 700;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .quote {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            color: #ddd;
+            text-align: center;
+            font-style: italic;
+        }
+
+        label {
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        select.form-select,
+        input.form-control {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        select.form-select:focus,
+        input.form-control:focus {
+            background: rgba(255, 255, 255, 0.3);
+            color: #000;
+            outline: none;
+            box-shadow: 0 0 8px 2px rgba(37, 117, 252, 0.6);
+        }
+
+        option {
+            color: #000;
+        }
+
+        button.btn-primary {
+            background: #2575fc;
+            border: none;
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 700;
+            border-radius: 0.7rem;
+            box-shadow: 0 4px 15px rgba(37, 117, 252, 0.6);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button.btn-primary:hover {
+            background: #145ec9;
+            box-shadow: 0 6px 25px rgba(20, 94, 201, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#">🧠 VoiceFlow</a>
+            <div class="dropdown ms-auto">
+                <button class="btn btn-transparent text-white dropdown-toggle" type="button" id="menuDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    &#x22EE;
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
+                    <li><a class="dropdown-item" href="#">Home</a></li>
+                    <li><a class="dropdown-item" href="#">Documentation</a></li>
+                    <li><a class="dropdown-item" href="#">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container py-5">
+        <div class="row g-4 align-items-stretch">
+
+            <!-- Left Card -->
+            <div class="col-md-6">
+                <div class="glass-card title-card text-center h-100 d-flex flex-column justify-content-center">
+                    <h2>🎙️ Speech-to-Text<br>Multilingual Transcription</h2>
+                    <p class="quote">"The human voice is the most perfect instrument of all." – Arvo Pärt</p>
+                </div>
+            </div>
+
+            <!-- Right Card: Form -->
+            <div class="col-md-6">
+                <form class="glass-card" action="/" method="POST" enctype="multipart/form-data" novalidate>
+                    <div class="mb-4">
+                        <label for="input_type" class="form-label">Input Type</label>
+                        <select class="form-select" id="input_type" name="input_type" required>
+                            <option value="" disabled selected>Select input type</option>
+                            <option value="audio">Audio</option>
+                            <option value="video">Video</option>
+                            <option value="document">Document</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="file" class="form-label">Upload File</label>
+                        <input class="form-control" type="file" id="file" name="file"
+                            accept="audio/*,video/*,application/pdf,image/*,text/*" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="lang" class="form-label">Transcription Language</label>
+                        <select class="form-select" id="lang" name="lang" required>
+                            <option value="" disabled selected>Select language</option>
+                            <option>English (US)</option>
+                            <option>English (UK)</option>
+                            <option>Hindi</option>
+                            <option>Tamil</option>
+                            <option>Telugu</option>
+                            <option>Bengali</option>
+                            <option>Marathi</option>
+                            <option>Gujarati</option>
+                            <option>Punjabi</option>
+                            <option>Malayalam</option>
+                            <option>Kannada</option>
+                            <option>Urdu</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="translate_to" class="form-label">Translate To</label>
+                        <select class="form-select" id="translate_to" name="translate_to" required>
+                            <option value="" disabled selected>Select language</option>
+                            <option>Hindi</option>
+                            <option>Tamil</option>
+                            <option>Telugu</option>
+                            <option>Bengali</option>
+                            <option>Marathi</option>
+                            <option>Gujarati</option>
+                            <option>Punjabi</option>
+                            <option>Malayalam</option>
+                            <option>Kannada</option>
+                            <option>Urdu</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
